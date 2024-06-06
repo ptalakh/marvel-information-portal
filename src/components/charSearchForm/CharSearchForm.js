@@ -18,12 +18,23 @@ const CharSearchForm = () => {
         setChar(char);
     }
 
-    const updateChar = (name) => {
+    const updateChar = async (name) => {
+        console.log(name)
         clearError();
 
-        getCharacterByName(name)
-            .then(onCharLoaded)
-            .then(() => setProcess('confirmed'))
+        try {
+            let char = await getCharacterByName(name);
+            if(char){
+                onCharLoaded(char);
+                setProcess('confirmed');
+            }
+        }catch (e){
+            console.log(e);
+        }
+
+        // getCharacterByName(name)
+        //     .then(onCharLoaded)
+        //     .then(() => setProcess('confirmed'))
     }
 
     const errorMessage = process === 'error' ? <div className="char__search-critical-error"><ErrorMessage /></div> : null;
@@ -47,8 +58,8 @@ const CharSearchForm = () => {
                 validationSchema = {Yup.object({
                     charName: Yup.string().required('This field is required.')
                 })}
-                onSubmit = { ({charName}) => {
-                    updateChar(charName);
+                onSubmit = { async({charName}) => {
+                    await updateChar(charName);
                 }}
             >
                 <Form>
