@@ -5,10 +5,11 @@ import setContent from '../../utils/setContent';
 
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
+import {CONSTANTS} from "../../constants";
 
 const RandomChar = () => {
     const [char, setChar] = useState(null);
-    const {getCharacter, clearError, process, setProcess} = useMarvelService();
+    const {getCharacterRandom, clearError, process, setProcess} = useMarvelService();
 
     useEffect(() => {
         updateChar();
@@ -26,9 +27,9 @@ const RandomChar = () => {
     const updateChar = () => {
         clearError();
 
-        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-        
-        getCharacter(id)
+        //const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+
+        getCharacterRandom()
             .then(onCharLoaded)
             .then(() => setProcess('confirmed'))
     };
@@ -55,12 +56,13 @@ const RandomChar = () => {
 
 
 const View = ({data}) => {
+    console.log(data);
     const {name, description, thumbnail, homepage, wiki} = data;
-    const thumbnailAvailable = !thumbnail.includes('image_not_available');
+    const thumbnailAvailable = thumbnail ? true : false;
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" style={thumbnailAvailable ? null : {'objectFit': 'contain'}}/>
+            <img src={`${CONSTANTS.API_IMAGE_URL}${thumbnail}`} alt="Random character" className="randomchar__img" style={thumbnailAvailable ? null : {'objectFit': 'contain'}}/>
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">

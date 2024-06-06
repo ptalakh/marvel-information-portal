@@ -6,6 +6,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
 import './comicsList.scss';
+import {CONSTANTS} from "../../constants";
 
 const setContent = (process, Component, newItemLoading) => {
     switch (process) {
@@ -56,9 +57,9 @@ const ComicsList = () => {
     function renderItems(arr) {
         const items = arr.map((item, i) => {
             let imgStyle = {'objectFit': 'cover'};
-            if(item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-                imgStyle = {'objectFit': 'unset'};
-            }
+            // if(item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+            //     imgStyle = {'objectFit': 'unset'};
+            // }
 
             return (
                 <li
@@ -66,7 +67,7 @@ const ComicsList = () => {
                     className="comics__item">
                     <Link to={`/comics/${item.id}`}>
                         <img
-                            src={item.thumbnail}
+                            src={`${CONSTANTS.API_IMAGE_URL}${item.thumbnail}`}
                             alt={item.title}
                             style={imgStyle}
                             className="comics__item-img"/>

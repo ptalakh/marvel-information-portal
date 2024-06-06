@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
-
+import {CONSTANTS} from "../../constants";
 import './charList.scss';
 
 const setContent = (process, Component, newItemLoading) => {
@@ -26,7 +26,7 @@ const setContent = (process, Component, newItemLoading) => {
 const CharList = (props) => {
     const [charList, setCharList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(301);
+    const [offset, setOffset] = useState(0);
     const [charEnded, setCharEnded] = useState(false);
     
     const {process, setProcess, getAllCharacters} = useMarvelService();
@@ -65,11 +65,12 @@ const CharList = (props) => {
     }
 
     function renderItems(arr) {
+        console.log(arr);
         const items =  arr.map((item, i) => {
             let imgStyle = {'objectFit' : 'cover'};
-            if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-                imgStyle = {'objectFit' : 'unset'};
-            }
+            // if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+            //     imgStyle = {'objectFit' : 'unset'};
+            // }
             
             return (
                 <li
@@ -87,7 +88,7 @@ const CharList = (props) => {
                             focusOnItem(i);
                         }
                     }}>
-                    <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
+                    <img src={`${CONSTANTS.API_IMAGE_URL}${item.thumbnail}`} alt={item.name} style={imgStyle}/>
                     <div className="char__name">{item.name}</div>
                 </li>
             )

@@ -6,6 +6,7 @@ import useMarvelService from '../../services/MarvelService';
 import setContent from '../../utils/setContent';
 
 import './charInfo.scss';
+import {CONSTANTS} from "../../constants";
 
 const CharInfo = (props) => {
     
@@ -48,14 +49,14 @@ const View = ({data}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = data;    
 
     let imgStyle = {'objectFit' : 'cover'};
-    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-        imgStyle = {'objectFit' : 'contain'};
-    }
+    // if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+    //     imgStyle = {'objectFit' : 'contain'};
+    // }
 
     return (
         <>
             <div className="char__basics">
-                <img src={thumbnail} alt={name} style={imgStyle}/>
+                <img src={`${CONSTANTS.API_IMAGE_URL}${thumbnail}`} alt={name} style={imgStyle}/>
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
@@ -76,16 +77,17 @@ const View = ({data}) => {
                 {comics.length > 0 ? null : 'There is no comics for this character.'}
                 {
                     comics.map((item, i) => {
+                        console.log(item);
                         if(i > 9) {
                             // eslint-disable-next-line
                             return;
                         }
-                        const comicId = item.resourceURI.slice(43);
-                        
+                        const comicId = item._id;
+
                         return (
                             <li key={i} className="char__comics-item">
                                 <Link to={`/comics/${comicId}`}>
-                                    {item.name}
+                                    {item.title}
                                 </Link>
                             </li>
                         )
@@ -97,7 +99,7 @@ const View = ({data}) => {
 }
 
 CharInfo.propTypes = {
-    charId: PropTypes.number
+    charId: PropTypes.string
 }
 
 export default CharInfo;

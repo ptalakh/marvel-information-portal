@@ -1,8 +1,9 @@
 import Comics from "../models/Comics.js";
 import SuperHero from "../models/SuperHero.js";
 export const getAllComics = async(req, res) => {
+    const {query: {limit = 9, offset = 0}} = req;
     try {
-        const comics = await Comics.find();
+        const comics = await Comics.find().limit(limit).skip(offset).populate('characters');
         if(!comics){
             return res.json({message: 'smth went wrong.'});
         }
@@ -43,7 +44,6 @@ export const setDependencySuperHeroAndComics = async (req, res) => {
             throw new Error(`Comic with title "${comicTitle}" not found`);
         }
 
-        console.log(comic);
 
         // Найти супергероев по именам
         const superheroes = await SuperHero.find({ name: { $in: superheroNames } });

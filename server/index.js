@@ -22,10 +22,6 @@ async function start(){
 
         async function main(){
 
-             // await SuperHero.insertMany(charactersData);
-             //
-             // await Comics.insertMany(comicsData)
-
 
         }
 

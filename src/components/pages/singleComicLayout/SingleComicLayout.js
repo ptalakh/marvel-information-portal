@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import './singleComicLayout.scss';
+import {CONSTANTS} from "../../../constants";
 
 const SingleComicLayout = ({data}) => {
     const {title, description, pageCount, thumbnail, language, price} = data;
@@ -15,7 +16,7 @@ const SingleComicLayout = ({data}) => {
                     />
                 <title>{title}</title>
             </Helmet>
-            <img src={thumbnail} alt={title} className="single-comic__img" />
+            <img src={`${CONSTANTS.API_IMAGE_URL}${thumbnail}`} alt={title} className="single-comic__img" />
             <div className="single-comic__info">
                 <h2 className="single-comic__name">{title}</h2>
                 <p className="single-comic__descr">{description}</p>
